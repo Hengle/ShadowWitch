@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Reflection;
 
-namespace ShadowWitch.Editor.Windows
+namespace ShadowWitch.Editor.Window
 {
     public class MainWindow : EditorWindow
     {
@@ -18,7 +18,15 @@ namespace ShadowWitch.Editor.Windows
 
             foreach (Type type in types)
             {
-                // type.getattr
+                if (typeof(ShadowWitchWindowBase).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
+                {
+                    Debug.Log(type.Name + " is true");
+                }
+
+                else
+                {
+                    Debug.Log(type.Name + " is false");
+                }
             }
         }
 
