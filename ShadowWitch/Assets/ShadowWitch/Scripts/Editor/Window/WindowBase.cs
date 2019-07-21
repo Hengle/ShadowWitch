@@ -5,7 +5,14 @@ using UnityEngine;
 
 namespace ShadowWitch.Editor.Window
 {
-    public abstract class ShadowWitchWindowBase : EditorWindow
+    public abstract class WindowBase : ScriptableObject
     {
+        #region constructors
+        // public WindowBase();
+        #endregion
+        
+        #region methods
+        public abstract void OnGUI();
+        #endregion
     }
 }

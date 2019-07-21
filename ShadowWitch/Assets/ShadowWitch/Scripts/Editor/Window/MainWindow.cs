@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Reflection;
+using EditorGUI = UnityEditor.Experimental.Networking.PlayerConnection.EditorGUI;
 
 namespace ShadowWitch.Editor.Window
 {
@@ -18,21 +19,28 @@ namespace ShadowWitch.Editor.Window
 
             foreach (Type type in types)
             {
-                if (typeof(ShadowWitchWindowBase).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
+                if (typeof(WindowBase).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
                 {
-                    Debug.Log(type.Name + " is true");
-                }
+                    WindowBase window = ScriptableObject.CreateInstance(type) as WindowBase;
 
-                else
-                {
-                    Debug.Log(type.Name + " is false");
+                    if (window == null)
+                    {
+                        continue;
+                    }
+                    
+                    EditorManager.AddWindow(window);
                 }
             }
         }
 
         private void OnGUI()
         {
-            EditorGUILayout.LabelField("Test");
+            // EditorGUILayout.LabelField("Test");
+            for (int i = 0; i < EditorManager.GetWindowCount(); ++i)
+            {
+                WindowBase window = EditorManager.GetWindow(i);
+                window.OnGUI();
+            }
         }
         #endregion
         
