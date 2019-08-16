@@ -34,3 +34,5 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+ShadowWitch/ProjectSettings/
+ShadowWitch/Packages/
