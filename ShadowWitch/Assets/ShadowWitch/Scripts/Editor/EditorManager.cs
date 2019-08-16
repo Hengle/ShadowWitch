@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using ShadowWitch.Editor.Window;
+using System.Reflection;
+using System;
 
 namespace ShadowWitch.Editor
 {
@@ -14,7 +15,8 @@ namespace ShadowWitch.Editor
         #region constructors
         static EditorManager()
         {
-            Init();
+            InitFields();
+            InitWindows();
         }
         #endregion
         
@@ -34,9 +36,30 @@ namespace ShadowWitch.Editor
             return windowList[index];
         }
         
-        private static void Init()
+        private static void InitFields()
         {
             windowList = new List<WindowBase>();    
+        }
+
+        private static void InitWindows()
+        {
+            Assembly assembly = Assembly.GetAssembly(typeof(EditorManager));
+            Type[] types = assembly.GetTypes();
+
+            foreach (Type type in types)
+            {
+                if (typeof(WindowBase).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
+                {
+                    WindowBase window = ScriptableObject.CreateInstance(type) as WindowBase;
+
+                    if (window == null)
+                    {
+                        continue;
+                    }
+
+                    EditorManager.AddWindow(window);
+                }
+            }
         }
         #endregion
     }
