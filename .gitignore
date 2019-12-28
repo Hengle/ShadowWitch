@@ -36,3 +36,6 @@ sysinfo.txt
 *.unitypackage
 ShadowWitch/ProjectSettings/
 ShadowWitch/Packages/
+ShadowWitch/Assets/Rider/
+ShadowWitch/Assets/Rider.meta
+ShadowWitch/.idea/
