@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ShadowWitch.Editor.Window
 {
-    public abstract class WindowBase : ScriptableObject
+    public abstract class WindowBase
     {
         #region constructors
         // public WindowBase();

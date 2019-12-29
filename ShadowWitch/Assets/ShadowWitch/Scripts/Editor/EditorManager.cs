@@ -3,19 +3,21 @@ using UnityEngine;
 using ShadowWitch.Editor.Window;
 using System.Reflection;
 using System;
+using ShadowWitch.Runtime.Map;
 
 namespace ShadowWitch.Editor
 {
-    public class EditorManager : UnityEditor.Editor
+    public static class EditorManager
     {
         #region fields
         private static List<WindowBase> windowList;
+        private static List<Type> mapTypeList;
         #endregion
         
         #region constructors
         static EditorManager()
         {
-            InitFields();
+            InitMapTypes();
             InitWindows();
         }
         #endregion
@@ -35,14 +37,15 @@ namespace ShadowWitch.Editor
         {
             return windowList[index];
         }
-        
-        private static void InitFields()
-        {
-            windowList = new List<WindowBase>();    
-        }
 
+        public static Type[] GetMapTypes()
+        {
+            return mapTypeList.ToArray();
+        }
+        
         private static void InitWindows()
         {
+            windowList = new List<WindowBase>();    
             Assembly assembly = Assembly.GetAssembly(typeof(EditorManager));
             Type[] types = assembly.GetTypes();
 
@@ -50,7 +53,7 @@ namespace ShadowWitch.Editor
             {
                 if (typeof(WindowBase).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
                 {
-                    WindowBase window = ScriptableObject.CreateInstance(type) as WindowBase;
+                    WindowBase window = assembly.CreateInstance(type.ToString()) as WindowBase;
 
                     if (window == null)
                     {
@@ -58,6 +61,21 @@ namespace ShadowWitch.Editor
                     }
 
                     EditorManager.AddWindow(window);
+                }
+            }
+        }
+
+        private static void InitMapTypes()
+        {
+            mapTypeList = new List<Type>();
+            Assembly assembly = typeof(MapBase).Assembly;
+            Type[] types = assembly.GetTypes();
+
+            foreach (Type type in types)
+            {
+                if (typeof(MapBase).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
+                {
+                    mapTypeList.Add(type);
                 }
             }
         }

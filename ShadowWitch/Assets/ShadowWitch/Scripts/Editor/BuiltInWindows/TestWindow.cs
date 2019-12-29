@@ -11,7 +11,6 @@ namespace ShadowWitch.Editor.BuiltInWindows
     public class TestWindow : WindowBase
     {
         #region fields
-        [SerializeField]
         private float testValue;
         #endregion
 
