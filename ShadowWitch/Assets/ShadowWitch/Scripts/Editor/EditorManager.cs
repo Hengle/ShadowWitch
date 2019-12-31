@@ -4,6 +4,7 @@ using ShadowWitch.Editor.Window;
 using System.Reflection;
 using System;
 using ShadowWitch.Runtime.Map;
+using ShadowWitch.Runtime.MonoBehaviours;
 
 namespace ShadowWitch.Editor
 {
@@ -12,6 +13,7 @@ namespace ShadowWitch.Editor
         #region fields
         private static List<WindowBase> windowList;
         private static List<Type> mapTypeList;
+        private static MapBehaviour mainMapBehaviour;
         #endregion
         
         #region constructors
@@ -19,6 +21,32 @@ namespace ShadowWitch.Editor
         {
             InitMapTypes();
             InitWindows();
+        }
+        #endregion
+        
+        #region properties
+        public static MapBehaviour MainMapBehaviour
+        {
+            get
+            {
+                if (mainMapBehaviour != null)
+                {
+                    return mainMapBehaviour;
+                }
+
+                mainMapBehaviour = UnityEngine.Object.FindObjectOfType<MapBehaviour>();
+                return mainMapBehaviour;
+            }
+
+            set
+            {
+                if (mainMapBehaviour != null)
+                {
+                    UnityEngine.Object.DestroyImmediate(mainMapBehaviour.gameObject);
+                }
+
+                mainMapBehaviour = value;
+            }
         }
         #endregion
         
