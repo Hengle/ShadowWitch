@@ -14,8 +14,8 @@ namespace ShadowWitch.Editor.BuiltInWindows
     {
         #region fields
         private int currentSelectedMapTypeIndex = 0;
-        private SizeInt mapSize;
-        private Size cellSize;
+        private SizeInt mapSize = new SizeInt(10, 10);
+        private Size cellSize = new Size(1f, 1f);
         private Type[] mapTypes;
         private string[] mapTypeNames;
         #endregion
@@ -38,13 +38,11 @@ namespace ShadowWitch.Editor.BuiltInWindows
         {
             EditorGUILayout.BeginVertical();
             currentSelectedMapTypeIndex = EditorGUILayout.Popup("Select Map Type", currentSelectedMapTypeIndex, mapTypeNames);
-
             EditorGUILayout.BeginHorizontal();
             int mapSizeWidth = EditorGUILayout.IntField("Map Width", mapSize.Width);
             int mapSizeHeight = EditorGUILayout.IntField("Map Height", mapSize.Height);
             mapSize = new SizeInt(mapSizeWidth, mapSizeHeight);
             EditorGUILayout.EndHorizontal();
-            
             EditorGUILayout.BeginHorizontal();
             float cellSizeWidth = EditorGUILayout.FloatField("Cell Width", cellSize.Width);
             float cellSizeHeight = EditorGUILayout.FloatField("Cell Height", cellSize.Height);
@@ -53,16 +51,15 @@ namespace ShadowWitch.Editor.BuiltInWindows
             
             if (GUILayout.Button("Create Map"))
             {
-                GameObject mapGO = new GameObject("Map");
-                MapBehaviour mapBehaviour = mapGO.AddComponent<MapBehaviour>();
-                Type mapType = mapTypes[currentSelectedMapTypeIndex];
-                MapBase map = mapType.Assembly.CreateInstance(mapType.ToString()) as MapBase;
-                map.Init(mapSize, cellSize);
-                mapBehaviour.Init(map);
-                EditorManager.MainMapBehaviour = mapBehaviour;
+                CreateNewWindow();
             }
             
             EditorGUILayout.EndVertical();
+        }
+
+        private void CreateNewWindow()
+        {
+            MapBehaviour mainMapBehaviour = EditorManager.CreateMainMap(mapTypes[currentSelectedMapTypeIndex], mapSize, cellSize);
         }
         #endregion
     }

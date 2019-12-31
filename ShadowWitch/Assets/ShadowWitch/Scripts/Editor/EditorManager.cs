@@ -3,6 +3,7 @@ using UnityEngine;
 using ShadowWitch.Editor.Window;
 using System.Reflection;
 using System;
+using ShadowWitch.Runtime.DataStructures;
 using ShadowWitch.Runtime.Map;
 using ShadowWitch.Runtime.MonoBehaviours;
 
@@ -37,20 +38,34 @@ namespace ShadowWitch.Editor
                 mainMapBehaviour = UnityEngine.Object.FindObjectOfType<MapBehaviour>();
                 return mainMapBehaviour;
             }
-
-            set
-            {
-                if (mainMapBehaviour != null)
-                {
-                    UnityEngine.Object.DestroyImmediate(mainMapBehaviour.gameObject);
-                }
-
-                mainMapBehaviour = value;
-            }
         }
         #endregion
         
         #region methods
+
+        public static MapBehaviour CreateMainMap(Type mapType, SizeInt mapSize, Size cellSize)
+        {
+            MapBehaviour currentMainMapBehaviour = MainMapBehaviour;
+
+            if (currentMainMapBehaviour != null)
+            {
+                UnityEngine.Object.DestroyImmediate(currentMainMapBehaviour.gameObject);
+                currentMainMapBehaviour = null;
+            }
+            
+            GameObject mapGO = new GameObject("Map");
+            MapBehaviour mapBehaviour = mapGO.AddComponent<MapBehaviour>();
+            MapBase map = mapType.Assembly.CreateInstance(mapType.ToString()) as MapBase;
+            map.Init(mapSize, cellSize);
+            mapBehaviour.Init(map);
+            mainMapBehaviour = mapBehaviour;
+            BoxCollider boxCollider = mapGO.AddComponent<BoxCollider>();
+            boxCollider.isTrigger = true;
+            boxCollider.center = new Vector3(mapSize.Width / 2f * cellSize.Width, 0f, -mapSize.Height / 2f * cellSize.Height);
+            boxCollider.size = new Vector3(mapSize.Width * cellSize.Width, 0f, mapSize.Height * cellSize.Height);
+            return mainMapBehaviour;
+        }
+        
         public static void AddWindow(WindowBase window)
         {
             windowList.Add(window);                        
