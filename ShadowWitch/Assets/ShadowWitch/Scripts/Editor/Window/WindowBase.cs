@@ -12,6 +12,14 @@ namespace ShadowWitch.Editor.Window
         #endregion
         
         #region methods
+        public virtual void OnEnable()
+        {
+        }
+
+        public virtual void OnDisable()
+        {
+        }
+        
         public abstract void OnGUI();
         #endregion
     }
