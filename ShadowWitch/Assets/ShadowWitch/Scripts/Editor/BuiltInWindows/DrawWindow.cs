@@ -22,7 +22,6 @@ namespace ShadowWitch.Editor.BuiltInWindows
             {
                 prefabInstance = UnityEngine.Object.Instantiate<GameObject>(currentPrefab);
             }
-            
         }
 
         public override void OnDisable()
