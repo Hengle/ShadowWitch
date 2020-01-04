@@ -33,6 +33,13 @@ namespace ShadowWitch.Editor.BuiltInWindows
         }
         #endregion
         
+        #region properties
+        public override string Name
+        {
+            get { return "Create Window"; }
+        }
+        #endregion
+        
         #region methods
         public override void OnGUI()
         {

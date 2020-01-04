@@ -11,6 +11,10 @@ namespace ShadowWitch.Editor.Window
         // public WindowBase();
         #endregion
         
+        #region properties
+        public abstract string Name { get; }
+        #endregion
+
         #region methods
         public virtual void OnEnable()
         {

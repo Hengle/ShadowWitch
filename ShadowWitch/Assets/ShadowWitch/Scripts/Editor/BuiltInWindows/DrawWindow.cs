@@ -12,6 +12,13 @@ namespace ShadowWitch.Editor.BuiltInWindows
         private GameObject prefabInstance;
         #endregion
         
+        #region properties
+        public override string Name
+        {
+            get { return "Draw Window"; }
+        }
+        #endregion
+        
         #region methods
         public override void OnEnable()
         {
