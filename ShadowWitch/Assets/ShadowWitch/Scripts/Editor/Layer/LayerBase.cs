@@ -5,5 +5,9 @@ namespace ShadowWitch.Editor.Layer
         #region properties
         public abstract string Name { get; }
         #endregion
+
+        #region methods
+        public abstract void DrawCell();
+        #endregion
     }
 }

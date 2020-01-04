@@ -8,6 +8,20 @@ namespace ShadowWitch.Editor.Layer
     {
         #region fields
         private static List<LayerBase> layerList;
+        private static int currentLayerIndex;
+        #endregion
+
+        #region properties
+        public static int CurrentLayerIndex
+        {
+            get { return currentLayerIndex; }
+            set { currentLayerIndex = value; }
+        }
+
+        public static LayerBase CurrentLayer
+        {
+            get { return layerList[currentLayerIndex]; }
+        }
         #endregion
         
         #region methods

@@ -8,5 +8,11 @@ namespace ShadowWitch.Editor.Layer.BuiltinLayers
             get { return EditorStringReferences.GroundTileLayerName; }
         }
         #endregion
+        
+        #region methods
+        public override void DrawCell()
+        {
+        }
+        #endregion
     }
 }

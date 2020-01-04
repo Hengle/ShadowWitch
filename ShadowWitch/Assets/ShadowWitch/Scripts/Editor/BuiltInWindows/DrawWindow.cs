@@ -1,4 +1,5 @@
 using System;
+using ShadowWitch.Editor.Layer;
 using ShadowWitch.Editor.Window;
 using UnityEditor;
 using UnityEngine;
@@ -41,7 +42,15 @@ namespace ShadowWitch.Editor.BuiltInWindows
         
         public override void OnGUI()
         {
-            EditorEventManager.IsStoreEvent = true;
+            EditorGUILayout.BeginVertical();
+            EditorGUI.BeginChangeCheck();
+            LayerManager.CurrentLayerIndex = EditorGUILayout.Popup("Current Layer", LayerManager.CurrentLayerIndex, LayerManager.GetLayerNames());
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                // todo
+            }
+            
             EditorGUI.BeginChangeCheck();
             currentPrefab = EditorGUILayout.ObjectField("Current Prefab", currentPrefab, typeof(GameObject), false) as GameObject;
             
@@ -51,6 +60,7 @@ namespace ShadowWitch.Editor.BuiltInWindows
                 UnityEngine.Object.DestroyImmediate(prefabInstance);
                 prefabInstance = UnityEngine.Object.Instantiate<GameObject>(currentPrefab);
             }
+            EditorGUILayout.EndVertical();
         }
         
         private void OnGetEditorEventEvent(object sender, EventArgs e)
