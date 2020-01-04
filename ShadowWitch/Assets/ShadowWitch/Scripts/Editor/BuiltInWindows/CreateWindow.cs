@@ -1,4 +1,5 @@
 using System;
+using ShadowWitch.Editor.Map;
 using ShadowWitch.Editor.Window;
 using ShadowWitch.Runtime.BuiltInMaps;
 using ShadowWitch.Runtime.DataStructures;
@@ -23,7 +24,7 @@ namespace ShadowWitch.Editor.BuiltInWindows
         #region constructors
         public CreateWindow()
         {
-            mapTypes = EditorManager.GetMapTypes();
+            mapTypes = MapManager.GetMapTypes();
             mapTypeNames = new string[mapTypes.Length];
 
             for (int i = 0; i < mapTypes.Length; ++i)
@@ -66,7 +67,7 @@ namespace ShadowWitch.Editor.BuiltInWindows
 
         private void CreateNewWindow()
         {
-            MapBehaviour mainMapBehaviour = EditorManager.CreateMainMap(mapTypes[currentSelectedMapTypeIndex], mapSize, cellSize);
+            MapBehaviour mainMapBehaviour = MapManager.CreateMainMap(mapTypes[currentSelectedMapTypeIndex], mapSize, cellSize);
         }
         #endregion
     }

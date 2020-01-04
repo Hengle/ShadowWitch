@@ -16,18 +16,18 @@ namespace ShadowWitch.Editor.Window
         #region unity methods
         private void OnEnable()
         {
-            for (int i = 0; i < EditorManager.GetWindowCount(); ++i)
+            for (int i = 0; i < WindowManager.GetWindowCount(); ++i)
             {
-                WindowBase window = EditorManager.GetWindow(i);
+                WindowBase window = WindowManager.GetWindow(i);
                 window.OnEnable();
             }
         }
 
         private void OnDisable()
         {
-            for (int i = 0; i < EditorManager.GetWindowCount(); ++i)
+            for (int i = 0; i < WindowManager.GetWindowCount(); ++i)
             {
-                WindowBase window = EditorManager.GetWindow(i);
+                WindowBase window = WindowManager.GetWindow(i);
                 window.OnDisable();
             }
         }
@@ -35,8 +35,8 @@ namespace ShadowWitch.Editor.Window
         private void OnGUI()
         {
             EditorGUILayout.BeginVertical();
-            currentWindowIndex = GUILayout.Toolbar(currentWindowIndex, EditorManager.GetWindowNames());
-            WindowBase currentWindow = EditorManager.GetWindow(currentWindowIndex);
+            currentWindowIndex = GUILayout.Toolbar(currentWindowIndex, WindowManager.GetWindowNames());
+            WindowBase currentWindow = WindowManager.GetWindow(currentWindowIndex);
             currentWindow.OnGUI();
             EditorGUILayout.EndVertical();
         }
