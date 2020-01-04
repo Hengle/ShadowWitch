@@ -12,6 +12,18 @@ namespace ShadowWitch.Runtime.Map
         protected Size cellSize;
         #endregion
 
+        #region properties
+        public SizeInt MapSize
+        {
+            get { return mapSize; }
+        }
+
+        public Size CellSize
+        {
+            get { return cellSize; }
+        }
+        #endregion
+        
         #region methods
         public void Init(SizeInt mapSize, Size cellSize)
         {

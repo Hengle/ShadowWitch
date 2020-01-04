@@ -6,6 +6,7 @@ using System;
 using ShadowWitch.Runtime.DataStructures;
 using ShadowWitch.Runtime.Map;
 using ShadowWitch.Runtime.MonoBehaviours;
+using UnityEditor;
 
 namespace ShadowWitch.Editor
 {
@@ -20,6 +21,7 @@ namespace ShadowWitch.Editor
         #region constructors
         static EditorManager()
         {
+            AddShadowWitchLayer();
             InitMapTypes();
             InitWindows();
         }
@@ -54,6 +56,7 @@ namespace ShadowWitch.Editor
             }
             
             GameObject mapGO = new GameObject("Map");
+            mapGO.layer = LayerMask.NameToLayer(EditorStringReferences.ShadowWitchLayerName);
             MapBehaviour mapBehaviour = mapGO.AddComponent<MapBehaviour>();
             MapBase map = mapType.Assembly.CreateInstance(mapType.ToString()) as MapBase;
             map.Init(mapSize, cellSize);
@@ -122,6 +125,58 @@ namespace ShadowWitch.Editor
                 }
             }
         }
+
+        private static bool AddShadowWitchLayer()
+        {
+            if (HasLayer(EditorStringReferences.ShadowWitchLayerName))
+            {
+                return true;
+            }
+            
+            SerializedObject tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/Tagmanager.asset"));
+            SerializedProperty it = tagManager.GetIterator();
+            
+            while(it.NextVisible(true))
+            {
+                if(it.name.Equals("layers") == false)
+                {
+                    continue;
+                }
+                
+                for(int i = 0; i < it.arraySize; ++i)
+                {
+                    if( i <= 7)
+                    {
+                        continue;
+                    }
+                        
+                    SerializedProperty sp = it.GetArrayElementAtIndex(i);
+                        
+                    if(string.IsNullOrEmpty(sp.stringValue))
+                    {
+                        sp.stringValue = EditorStringReferences.ShadowWitchLayerName;
+                        tagManager.ApplyModifiedProperties();
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        
+        private static bool HasLayer(string layerName)
+        {
+            for(int i= 0; i< UnityEditorInternal.InternalEditorUtility.layers.Length; ++i)
+            {
+                if(UnityEditorInternal.InternalEditorUtility.layers[i].Contains(layerName))
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
         #endregion
     }
 }
