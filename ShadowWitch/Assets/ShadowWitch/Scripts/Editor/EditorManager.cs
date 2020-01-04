@@ -3,6 +3,7 @@ using UnityEngine;
 using ShadowWitch.Editor.Window;
 using System.Reflection;
 using System;
+using ShadowWitch.Editor.Layer;
 using ShadowWitch.Editor.Map;
 using ShadowWitch.Runtime.DataStructures;
 using ShadowWitch.Runtime.Map;
@@ -18,6 +19,7 @@ namespace ShadowWitch.Editor
         static EditorManager()
         {
             AddShadowWitchLayer();
+            LayerManager.Init();
             MapManager.Init();
             WindowManager.Init();
         }

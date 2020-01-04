@@ -3,10 +3,12 @@ using UnityEngine;
 using ShadowWitch.Editor.Window;
 using System.Reflection;
 using System;
+using ShadowWitch.Editor.Layer;
 using ShadowWitch.Runtime.DataStructures;
 using ShadowWitch.Runtime.Map;
 using ShadowWitch.Runtime.MonoBehaviours;
 using UnityEditor;
+using EditorGUILayout = UnityEditor.Experimental.Networking.PlayerConnection.EditorGUILayout;
 
 namespace ShadowWitch.Editor.Map
 {
@@ -70,12 +72,24 @@ namespace ShadowWitch.Editor.Map
             boxCollider.isTrigger = true;
             boxCollider.center = new Vector3(mapSize.Width / 2f * cellSize.Width, 0f, -mapSize.Height / 2f * cellSize.Height);
             boxCollider.size = new Vector3(mapSize.Width * cellSize.Width, 0f, mapSize.Height * cellSize.Height);
+            CreateLayerGameObjects();
             return mainMapBehaviour;
         }
 
         public static Type[] GetMapTypes()
         {
             return mapTypeList.ToArray();
+        }
+
+        private static void CreateLayerGameObjects()
+        {
+            string[] layerNames = LayerManager.GetLayerNames();
+
+            foreach (string layerName in layerNames)
+            {
+                GameObject layerGO = new GameObject(layerName);
+                layerGO.transform.parent = mainMapBehaviour.transform;
+            }
         }
         #endregion
     }
