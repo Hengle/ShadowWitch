@@ -9,6 +9,10 @@ namespace ShadowWitch.Editor.Window
 {
     public class MainWindow : EditorWindow
     {
+        #region fields
+        private int currentWindowIndex = 0;
+        #endregion
+        
         #region unity methods
         private void OnEnable()
         {
@@ -30,11 +34,11 @@ namespace ShadowWitch.Editor.Window
 
         private void OnGUI()
         {
-            for (int i = 0; i < EditorManager.GetWindowCount(); ++i)
-            {
-                WindowBase window = EditorManager.GetWindow(i);
-                window.OnGUI();
-            }
+            EditorGUILayout.BeginVertical();
+            currentWindowIndex = GUILayout.Toolbar(currentWindowIndex, EditorManager.GetWindowNames());
+            WindowBase currentWindow = EditorManager.GetWindow(currentWindowIndex);
+            currentWindow.OnGUI();
+            EditorGUILayout.EndVertical();
         }
         #endregion
         

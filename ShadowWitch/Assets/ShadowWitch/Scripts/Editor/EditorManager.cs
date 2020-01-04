@@ -84,6 +84,18 @@ namespace ShadowWitch.Editor
             return windowList[index];
         }
 
+        public static string[] GetWindowNames()
+        {
+            string[] names = new string[windowList.Count];
+
+            for (int i = 0; i < names.Length; ++i)
+            {
+                names[i] = windowList[i].Name;
+            }
+
+            return names;
+        }
+
         public static Type[] GetMapTypes()
         {
             return mapTypeList.ToArray();
