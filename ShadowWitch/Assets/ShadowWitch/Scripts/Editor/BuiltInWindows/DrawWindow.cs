@@ -16,11 +16,21 @@ namespace ShadowWitch.Editor.BuiltInWindows
         public override void OnEnable()
         {
             EditorEventManager.GetEditorEventEvent += OnGetEditorEventEvent;
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+
+            if (currentPrefab != null)
+            {
+                prefabInstance = UnityEngine.Object.Instantiate<GameObject>(currentPrefab);
+            }
+            
         }
 
         public override void OnDisable()
         {
+            // when play the game, unity will call OnDisable then call OnEnable
             EditorEventManager.GetEditorEventEvent -= OnGetEditorEventEvent;
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            UnityEngine.Object.DestroyImmediate(prefabInstance);
         }
         
         public override void OnGUI()
@@ -63,6 +73,16 @@ namespace ShadowWitch.Editor.BuiltInWindows
             if (currentEvent.type == EventType.MouseDown)
             {
                 UnityEngine.Object.Instantiate<GameObject>(prefabInstance);
+            }
+        }
+        
+        private void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.ExitingEditMode)
+            {
+                UnityEngine.Object.DestroyImmediate(prefabInstance);
+                currentPrefab = null;
+                prefabInstance = null;
             }
         }
         #endregion
