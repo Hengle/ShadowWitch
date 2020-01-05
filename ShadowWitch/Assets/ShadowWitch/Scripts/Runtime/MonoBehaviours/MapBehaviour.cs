@@ -10,8 +10,11 @@ namespace ShadowWitch.Runtime.MonoBehaviours
     public class MapBehaviour : MonoBehaviour, ISerializationCallbackReceiver
     {
         #region fields
+        [SerializeField]
         private MapBase map;
+        [SerializeField]
         private List<string> layerGOKeyList;
+        [SerializeField]
         private List<GameObject> layerGOList;
         private Dictionary<string, GameObject> layerGODict;
         #endregion
@@ -43,17 +46,22 @@ namespace ShadowWitch.Runtime.MonoBehaviours
 
         public void OnAfterDeserialize()
         {
+            layerGODict.Clear();
             
+            for (int i = 0; i < layerGOKeyList.Count; ++i)
+            {
+                layerGODict.Add(layerGOKeyList[i], layerGOList[i]);    
+            }
         }
         #endregion
 
         #region methods
-        public void Init(MapBase map)
+        public void Init(MapBase map, Dictionary<string, GameObject> layerGODict)
         {
             this.map = map;
-            layerGODict = new Dictionary<string, GameObject>();
             layerGOKeyList = new List<string>();
             layerGOList = new List<GameObject>();
+            this.layerGODict = layerGODict;
         }
         #endregion
     }

@@ -15,6 +15,21 @@ namespace ShadowWitch.Editor
     [InitializeOnLoad]
     public static class EditorManager
     {
+        #region fields
+
+        private static GameObject currentPrefab;
+
+        #endregion
+
+        #region properties
+
+        public static GameObject CurrentPrefab
+        {
+            get { return currentPrefab; }
+            set { currentPrefab = value; }
+        }
+        #endregion
+        
         #region constructors
         static EditorManager()
         {

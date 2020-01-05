@@ -1,12 +1,15 @@
+using System;
 using ShadowWitch.Runtime.DataStructures;
 using UnityEngine;
 
-namespace ShadowWitch.Editor.Layer
+namespace ShadowWitch.Runtime
 {
+    [Serializable]
     public class CellDataBase : ScriptableObject
     {
         #region fields
-        private RowColumnInt rowColumnInt;
+        [SerializeField]
+        protected RowColumnInt coord;
         #endregion
     }
 }

@@ -1,14 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ShadowWitch.Runtime.DataStructures;
 
 namespace ShadowWitch.Runtime.Map
 {
+    [Serializable]
     public abstract class MapBase
     {
         #region fields
+        [SerializeField]
         protected SizeInt mapSize;
+        [SerializeField]
         protected Size cellSize;
         #endregion
 

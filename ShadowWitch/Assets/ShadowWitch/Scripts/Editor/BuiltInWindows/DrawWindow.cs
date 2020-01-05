@@ -9,7 +9,7 @@ namespace ShadowWitch.Editor.BuiltInWindows
     public class DrawWindow : WindowBase
     {
         #region fields
-        private GameObject currentPrefab;
+//        private GameObject currentPrefab;
         private GameObject prefabInstance;
         #endregion
         
@@ -26,9 +26,9 @@ namespace ShadowWitch.Editor.BuiltInWindows
             EditorEventManager.GetEditorEventEvent += OnGetEditorEventEvent;
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
 
-            if (currentPrefab != null)
+            if (EditorManager.CurrentPrefab != null)
             {
-                prefabInstance = UnityEngine.Object.Instantiate<GameObject>(currentPrefab);
+                prefabInstance = UnityEngine.Object.Instantiate<GameObject>(EditorManager.CurrentPrefab);
             }
         }
 
@@ -52,13 +52,13 @@ namespace ShadowWitch.Editor.BuiltInWindows
             }
             
             EditorGUI.BeginChangeCheck();
-            currentPrefab = EditorGUILayout.ObjectField("Current Prefab", currentPrefab, typeof(GameObject), false) as GameObject;
+            EditorManager.CurrentPrefab = EditorGUILayout.ObjectField("Current Prefab", EditorManager.CurrentPrefab, typeof(GameObject), false) as GameObject;
             
             if (EditorGUI.EndChangeCheck())
             {
                 Debug.Log("prefab changed");
                 UnityEngine.Object.DestroyImmediate(prefabInstance);
-                prefabInstance = UnityEngine.Object.Instantiate<GameObject>(currentPrefab);
+                prefabInstance = UnityEngine.Object.Instantiate<GameObject>(EditorManager.CurrentPrefab);
             }
             EditorGUILayout.EndVertical();
         }
@@ -72,10 +72,10 @@ namespace ShadowWitch.Editor.BuiltInWindows
             
             Event currentEvent = EditorEventManager.CurrentEvent;
 
-            if (currentEvent.type != EventType.MouseMove && currentEvent.type != EventType.MouseDown)
-            {
-                return;
-            }
+//            if (currentEvent.type != EventType.MouseMove && currentEvent.type != EventType.MouseDown)
+//            {
+//                return;
+//            }
             
             Ray ray = HandleUtility.GUIPointToWorldRay(currentEvent.mousePosition);
             
@@ -85,11 +85,7 @@ namespace ShadowWitch.Editor.BuiltInWindows
             }
 
             prefabInstance.transform.position = raycastHit.point;;
-
-            if (currentEvent.type == EventType.MouseDown)
-            {
-                UnityEngine.Object.Instantiate<GameObject>(prefabInstance);
-            }
+            LayerManager.CurrentLayer.DrawCell();
         }
         
         private void OnPlayModeStateChanged(PlayModeStateChange state)
@@ -97,7 +93,7 @@ namespace ShadowWitch.Editor.BuiltInWindows
             if (state == PlayModeStateChange.ExitingEditMode)
             {
                 UnityEngine.Object.DestroyImmediate(prefabInstance);
-                currentPrefab = null;
+                EditorManager.CurrentPrefab = null;
                 prefabInstance = null;
             }
         }

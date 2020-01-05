@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace ShadowWitch.Editor.Layer.BuiltinLayers
 {
     public class GroundTileLayer : LayerBase
@@ -12,6 +14,12 @@ namespace ShadowWitch.Editor.Layer.BuiltinLayers
         #region methods
         public override void DrawCell()
         {
+            Event currentEvent = EditorEventManager.CurrentEvent;
+            
+            if (currentEvent.type == EventType.MouseDown)
+            {
+                UnityEngine.Object.Instantiate<GameObject>(EditorManager.CurrentPrefab);
+            }
         }
         #endregion
     }

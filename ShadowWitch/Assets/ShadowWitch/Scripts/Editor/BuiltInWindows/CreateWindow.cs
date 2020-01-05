@@ -67,7 +67,7 @@ namespace ShadowWitch.Editor.BuiltInWindows
 
         private void CreateNewWindow()
         {
-            MapBehaviour mainMapBehaviour = MapManager.CreateMainMap(mapTypes[currentSelectedMapTypeIndex], mapSize, cellSize);
+            MapManager.CreateMainMap(mapTypes[currentSelectedMapTypeIndex], mapSize, cellSize);
         }
         #endregion
     }
